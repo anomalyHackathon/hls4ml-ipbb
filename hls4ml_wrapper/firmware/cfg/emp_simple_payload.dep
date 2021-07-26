@@ -1,0 +1,10 @@
+src emp_payload.vhd
+src hls4ml_ip.vhd
+src -c emp-fwk:components/datapath emp_data_types.vhd
+src -c ipbus-firmware:components/ipbus_core ipbus_package.vhd
+src -c emp-fwk:components/ttc emp_ttc_decl.vhd
+src ../ucf/emp_simple_payload.tcl
+
+addrtab emp_payload.xml
+
+? toolset.lower() == "vivado" ? setup emp_simple_payload_msg_suppressions.tcl

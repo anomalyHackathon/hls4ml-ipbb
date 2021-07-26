@@ -1,0 +1,4 @@
+<!-- <node description="A null algo block" id="payload" fwinfo="endpoint;width=31"/> -->
+<node description="A null algo block" fwinfo="endpoint;">
+    <node id="dummy_payload" address="0x0" fwinfo="endpoint;width=31"/>
+</node>
