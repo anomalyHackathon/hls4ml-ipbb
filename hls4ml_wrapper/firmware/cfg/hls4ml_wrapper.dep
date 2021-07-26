@@ -5,6 +5,6 @@ src -c ipbus-firmware:components/ipbus_core ipbus_package.vhd
 src -c emp-fwk:components/ttc emp_ttc_decl.vhd
 src ../ucf/hls4ml_wrapper.tcl
 
-addrtab emp_payload.xml
+addrtab hls4ml_wrapper.xml
 
 ? toolset.lower() == "vivado" ? setup hls4ml_wrapper_msg_suppressions.tcl
