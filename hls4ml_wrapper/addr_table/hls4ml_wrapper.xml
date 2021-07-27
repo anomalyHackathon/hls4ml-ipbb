@@ -1,0 +1,4 @@
+<!-- <node description="A null algo block" id="payload" fwinfo="endpoint;width=31"/> -->
+<node description="An hls4ml IP wrapper" fwinfo="endpoint;">
+    <node id="hls4ml_wrapper" address="0x0" fwinfo="endpoint;width=31"/>
+</node>
