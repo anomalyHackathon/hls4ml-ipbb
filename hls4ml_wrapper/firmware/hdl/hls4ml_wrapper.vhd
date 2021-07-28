@@ -35,7 +35,7 @@ end emp_payload;
 
 architecture rtl of emp_payload is
 
-  component hls4ml_ip is
+  component myproject is
     port(
       {{PORTS}}
       -- ap_clk : IN STD_LOGIC;
@@ -61,7 +61,7 @@ architecture rtl of emp_payload is
       -- const_size_out_1 : OUT STD_LOGIC_VECTOR (15 downto 0);
       -- const_size_out_1_ap_vld : OUT STD_LOGIC
       );  
-  end component hls4ml_ip;
+  end component myproject;
 
   constant NUM_INPUTS : integer := {{NUM_INPUTS}};
   constant NUM_OUTPUTS : integer := {{NUM_OUTPUTS}};
@@ -80,7 +80,7 @@ architecture rtl of emp_payload is
 
 begin
 
-  ip: hls4ml_ip port map (
+  ip: myproject port map (
     {{PORT_MAP}}
     -- ap_clk => clk_p,
     -- ap_rst => '0',
