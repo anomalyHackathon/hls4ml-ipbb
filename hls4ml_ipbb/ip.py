@@ -42,14 +42,14 @@ class IP:
         try:
             hls_config_tree = ET.parse(os.path.join(project_path, 'vivado_hls.app'))
             root = hls_config_tree.getroot()
-            solutions = root.find('solutions')
+            solutions = root.find('{com.autoesl.autopilot.project}solutions')
 
             for solution in solutions:
                 name = solution.get('name')
                 if name is not None:
                     self._solutions.append(name)
         except Exception as ex:
-            raise InvalidHLSProjectError(ex)
+            raise InvalidHLSProjectError(exception=ex)
 
         self._solution = None
 
