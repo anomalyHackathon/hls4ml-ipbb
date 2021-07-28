@@ -55,13 +55,14 @@ class IP:
 
     def _check_solution(self):
         if self.get_solution() is None:
-            raise RuntimeError('You must select a solution first by calling set_solution()')
+            raise RuntimeError('You must select a solution first by calling set_solution(). '
+                               'You can call get_solutions() to get all available solutions.')
 
     def set_solution(self, solution):
         if solution in self.get_solutions():
             self._solution = solution
         else:
-            raise RuntimeError('solution must be an element of get_solutions()')
+            raise RuntimeError('solution must be an element of get_solutions().')
 
     def get_solution(self):
         return self._solution
