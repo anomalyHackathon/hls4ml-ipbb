@@ -28,6 +28,9 @@ class Wrapper(ABC):
 
 
 class VHDLWrapper(Wrapper):
+    _PORT_INDENTATION = 6
+    _PORT_MAP_INDENTATION = 4
+    
     def __init__(self, ip: IP):
         super().__init__(ip)
 
@@ -59,6 +62,8 @@ class VHDLWrapper(Wrapper):
                         ignore=shutil.ignore_patterns('.*', '#*', '*~'),
                         dirs_exist_ok=True)
 
+        wrapper_hdl_path = os.path.join(wrapper_new_path, 'firmware', 'hdl')
+
         # Gather all IP VHDL files and save everything in a single .vhd file
         entire_hdl_str = ''
         
@@ -75,13 +80,12 @@ class VHDLWrapper(Wrapper):
         if entire_hdl_str == '':
             raise NoVHDLError
 
-        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl',
-                               'hls4ml_ip.vhd'), 'w') as f:
+        with open(os.path.join(wrapper_hdl_path, 'hls4ml_ip.vhd'), 'w') as f:
             f.write(entire_hdl_str)
 
         # Save the wrapper file
         wrapper_str = ''
-        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl',
+        with open(os.path.join(wrapper_hdl_path,
                                'hls4ml_wrapper.vhd'), 'r') as f:
             for line in f:
                 wrapper_str += line
@@ -93,7 +97,7 @@ class VHDLWrapper(Wrapper):
         for key, func in self._VHDL_VAR_DICT.items():
             wrapper_str = wrapper_str.replace('{{' + key + '}}', str(func()))
 
-        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl',
+        with open(os.path.join(wrapper_hdl_path,
                                'hls4ml_wrapper.vhd'), 'w') as f:
             f.write(wrapper_str)
 
@@ -102,7 +106,7 @@ class VHDLWrapper(Wrapper):
         ports = self._ip.get_ports()
         
         for i, port in enumerate(ports):
-            string += 6 * ' '
+            string += VHDLWrapper._PORT_INDENTATION * ' '
             string += port.name
             string += ' : '
             string += 'in' if port.io_type == IOType.INPUT else 'out'
@@ -137,7 +141,7 @@ class VHDLWrapper(Wrapper):
         ports = self._ip.get_ports()
 
         for i, port in enumerate(ports):
-            string += 4 * ' '
+            string += VHDLWrapper._PORT_MAP_INDENTATION * ' '
             string += port.name
             string += ' => '
             
