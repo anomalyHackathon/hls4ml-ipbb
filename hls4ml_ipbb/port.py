@@ -1,3 +1,4 @@
+import re
 from abc import ABC, abstractmethod
 from enum import Enum
 
@@ -20,6 +21,25 @@ class ValueType(ABC):
     @abstractmethod
     def __str__(self):
         pass
+
+    def convert(type_str: str):
+        type_str = type_str.lower()
+        if type_str == 'std_logic':
+            return VHDLStdLogic()
+        elif type_str.find('std_logic_vector') != -1:
+            regex = re.compile(r'std_logic_vector\s*\(\s*(\d+)\s+downto\s+0\s*\)')
+            res = regex.search(type_str)
+
+            if res is None:
+                regex = re.compile(r'std_logic_vector\s*\(\s*0\s+to\s+(\d+)s*\)')
+                res = regex.search(type_str)
+
+                if res is None:
+                    return None
+
+            return VHDLStdLogicVector(int(res.group(1)) + 1)
+        else:
+            return None
 
 
 class VHDLStdLogic(ValueType):
