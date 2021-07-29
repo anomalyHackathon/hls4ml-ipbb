@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 import argparse
-import hls4ml_ipbb
 import traceback
-from hls4ml_ipbb import Project, IP, VHDLWrapper
 
 
 PROG_NAME = 'ipbb_convert'
@@ -11,6 +9,14 @@ PROG_NAME = 'ipbb_convert'
 def error(msg):
     print(f'{PROG_NAME}: error: {msg}')
     exit(1)
+
+
+try:
+    import hls4ml_ipbb
+    from hls4ml_ipbb import Project, IP, VHDLWrapper
+except ImportError:
+    error('hls4ml_ipbb is not present in your environment, please install it '
+          'before using the program')
 
 
 def run(src, dest, solution):
