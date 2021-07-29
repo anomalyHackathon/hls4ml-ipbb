@@ -72,12 +72,12 @@ class Project:
 
 class IP:
     def __init__(self, proj: Project, solution: str):
-        hdl_path = os.path.join(proj.path, solution, 'impl', 'ip', 'hdl', 'vhdl')
+        self._hdl_path = os.path.join(proj.path, solution, 'impl', 'ip', 'hdl')
 
-        if not os.path.exists(hdl_path):
+        if not os.path.exists(self._hdl_path):
             raise NoHDLError
 
-        myproject_vhd_path = os.path.join(hdl_path, 'myproject.vhd')
+        myproject_vhd_path = os.path.join(self._hdl_path, 'vhdl', 'myproject.vhd')
 
         if not os.path.exists(myproject_vhd_path):
             raise NoHDLError
@@ -138,6 +138,10 @@ class IP:
             return
 
         self._num_inputs = int(res.group(1), 2)
+
+    @property
+    def hdl_path(self):
+        return self._hdl_path
 
     def get_ports(self):
         return self._ports
