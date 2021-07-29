@@ -26,6 +26,9 @@ class VHDLStdLogic(ValueType):
     def __str__(self):
         return 'std_logic'
 
+    def __len__(self):
+        return 1
+
 
 class VHDLStdLogicVector(ValueType):
     def __init__(self, size):
@@ -33,6 +36,9 @@ class VHDLStdLogicVector(ValueType):
 
     def __str__(self):
         return f'std_logic_vector({self._size - 1} downto 0)'
+
+    def __len__(self):
+        return self._size
 
 
 class Port:
