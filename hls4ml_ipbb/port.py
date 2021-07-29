@@ -42,7 +42,7 @@ class VHDLStdLogicVector(ValueType):
 
 
 class Port:
-    def __init__(name: str, io_type: IOType, value_type: ValueType):
+    def __init__(self, name: str, io_type: IOType, value_type: ValueType):
         self._name = name
         self._io_type = io_type
         self._value_type = value_type
