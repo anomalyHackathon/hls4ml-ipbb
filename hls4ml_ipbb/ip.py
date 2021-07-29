@@ -20,6 +20,7 @@ class InvalidHLSProjectError(Exception):
     def original_exception(self):
         return self._exception
 
+
 class Project:
     def __init__(self, path: str):
         if not os.path.exists(path):
@@ -42,7 +43,8 @@ class Project:
         self._solutions = []
 
         try:
-            hls_config_tree = ET.parse(os.path.join(project_path, 'vivado_hls.app'))
+            hls_config_tree = ET.parse(os.path.join(project_path,
+                                                    'vivado_hls.app'))
             root = hls_config_tree.getroot()
             solutions = root.find('{com.autoesl.autopilot.project}solutions')
 
@@ -77,7 +79,8 @@ class IP:
         if not os.path.exists(self._hdl_path):
             raise NoHDLError
 
-        myproject_vhd_path = os.path.join(self._hdl_path, 'vhdl', 'myproject.vhd')
+        myproject_vhd_path = os.path.join(self._hdl_path, 'vhdl',
+                                          'myproject.vhd')
 
         if not os.path.exists(myproject_vhd_path):
             raise NoHDLError
@@ -90,23 +93,30 @@ class IP:
         self._parse_ports(hdl_str)
         self._parse_num_inputs(hdl_str)
 
-        self._num_outputs = len(list(filter(lambda x: x.purpose == PortPurpose.NET_OUT, self._ports)))
+        self._num_outputs = len(list(filter(
+            lambda x: x.purpose == PortPurpose.NET_OUT, self._ports)))
 
     def _parse_ports(self, hdl_str: str):
-        regex = re.compile(r'entity\s+myproject\s+is\s+port\s*\((.*)\)\s*;\s*end\s*;', flags=re.DOTALL|re.IGNORECASE)
+        regex = re.compile(
+            r'entity\s+myproject\s+is\s+port\s*\((.*)\)\s*;\s*end\s*;',
+            flags=re.DOTALL|re.IGNORECASE)
         res = regex.search(hdl_str)
 
         port_lines = map(str.strip, res.group(1).split('\n'))
         ports = []
 
-        line_regex = re.compile(r'(\S+)\s*:\s+(in|out)\s+([^;]+);?', flags=re.IGNORECASE)
+        line_regex = re.compile(r'(\S+)\s*:\s+(in|out)\s+([^;]+);?',
+                                flags=re.IGNORECASE)
         for line in port_lines:
             line_res = line_regex.search(line)
 
             if line_res is None:
                 continue
             
-            ports.append(Port(line_res.group(1), IOType.INPUT if line_res.group(2).lower() == 'in' else IOType.OUTPUT,
+            ports.append(Port(line_res.group(1),
+                              IOType.INPUT
+                              if line_res.group(2).lower() == 'in'
+                              else IOType.OUTPUT,
                               ValueType.convert(line_res.group(3))))
 
         self._ports = ports
@@ -122,7 +132,8 @@ class IP:
             self._num_inputs = None
             return
 
-        regex = re.compile(const_size_in_name + r'\s+<=\s+(\S+)\s*;', flags=re.IGNORECASE)
+        regex = re.compile(const_size_in_name + r'\s+<=\s+(\S+)\s*;',
+                           flags=re.IGNORECASE)
         res = regex.search(hdl_str)
 
         if res is None:
@@ -130,7 +141,9 @@ class IP:
             return
 
         const_name = res.group(1)
-        regex = re.compile(r'constant\s+' + const_name + r'\s*:\s+std_logic_vector.+:=\s*"([01]+)"\s*;', flags=re.IGNORECASE)
+        regex = re.compile(
+            r'constant\s+' + const_name +
+            r'\s*:\s+std_logic_vector.+:=\s*"([01]+)"\s*;', flags=re.IGNORECASE)
         res = regex.search(hdl_str)
 
         if res is None:
@@ -153,9 +166,11 @@ class IP:
         return self._num_outputs
 
     def get_input_width(self):
-        in_port = next(filter(lambda x: x.purpose == PortPurpose.NET_IN, self.get_ports()))
+        in_port = next(filter(lambda x: x.purpose == PortPurpose.NET_IN,
+                              self.get_ports()))
         return len(in_port.value_type) // self.get_num_inputs()
 
     def get_output_width(self):
-        out_port = next(filter(lambda x: x.purpose == PortPurpose.NET_OUT, self.get_ports()))
+        out_port = next(filter(lambda x: x.purpose == PortPurpose.NET_OUT,
+                               self.get_ports()))
         return len(out_port.value_type)

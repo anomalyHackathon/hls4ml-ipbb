@@ -27,7 +27,8 @@ class ValueType(ABC):
         if type_str == 'std_logic':
             return VHDLStdLogic()
         elif type_str.find('std_logic_vector') != -1:
-            regex = re.compile(r'std_logic_vector\s*\(\s*(\d+)\s+downto\s+0\s*\)')
+            regex = re.compile(
+                r'std_logic_vector\s*\(\s*(\d+)\s+downto\s+0\s*\)')
             res = regex.search(type_str)
 
             if res is None:
@@ -74,9 +75,15 @@ class Port:
             is_out = name.find('_out_') != -1
 
             if is_in:
-                self._purpose = PortPurpose.NET_IN_AP_VLD if name.endswith('ap_vld') else PortPurpose.NET_IN
+                self._purpose = \
+                    PortPurpose.NET_IN_AP_VLD \
+                    if name.endswith('ap_vld') \
+                       else PortPurpose.NET_IN
             elif is_out:
-                self._purpose = PortPurpose.NET_OUT_AP_VLD if name.endswith('ap_vld') else PortPurpose.NET_OUT
+                self._purpose = \
+                    PortPurpose.NET_OUT_AP_VLD \
+                    if name.endswith('ap_vld') \
+                       else PortPurpose.NET_OUT
             else:
                 self._purpose = PortPurpose.OTHER
 

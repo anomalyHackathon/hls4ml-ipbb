@@ -51,10 +51,12 @@ class VHDLWrapper(Wrapper):
 
         os.makedirs(dest, exist_ok=True)
 
-        wrapper_orig_path = os.path.join(os.path.dirname(__file__), 'hls4ml_wrapper')
+        wrapper_orig_path = os.path.join(os.path.dirname(__file__),
+                                         'hls4ml_wrapper')
         wrapper_new_path = os.path.join(dest, 'hls4ml_wrapper')
 
-        shutil.copytree(wrapper_orig_path, wrapper_new_path, ignore=shutil.ignore_patterns('.*', '#*', '*~'),
+        shutil.copytree(wrapper_orig_path, wrapper_new_path,
+                        ignore=shutil.ignore_patterns('.*', '#*', '*~'),
                         dirs_exist_ok=True)
 
         # Gather all IP VHDL files and save everything in a single .vhd file
@@ -73,22 +75,26 @@ class VHDLWrapper(Wrapper):
         if entire_hdl_str == '':
             raise NoVHDLError
 
-        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl', 'hls4ml_ip.vhd'), 'w') as f:
+        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl',
+                               'hls4ml_ip.vhd'), 'w') as f:
             f.write(entire_hdl_str)
 
         # Save the wrapper file
         wrapper_str = ''
-        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl', 'hls4ml_wrapper.vhd'), 'r') as f:
+        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl',
+                               'hls4ml_wrapper.vhd'), 'r') as f:
             for line in f:
                 wrapper_str += line
 
         for key, func in self._IP_VAR_DICT.items():
-            wrapper_str = wrapper_str.replace('{{' + key + '}}', str(func(self._ip)))
+            wrapper_str = wrapper_str.replace('{{' + key + '}}',
+                                              str(func(self._ip)))
 
         for key, func in self._VHDL_VAR_DICT.items():
             wrapper_str = wrapper_str.replace('{{' + key + '}}', str(func()))
 
-        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl', 'hls4ml_wrapper.vhd'), 'w') as f:
+        with open(os.path.join(wrapper_new_path, 'firmware', 'hdl',
+                               'hls4ml_wrapper.vhd'), 'w') as f:
             f.write(wrapper_str)
 
     def _get_ports(self):
