@@ -63,7 +63,15 @@ class ValueType(ABC):
             return None
 
 
-class VHDLStdLogic(ValueType):
+class VHDLValueType(ValueType):
+    """An abstract ValueType subclass representing a port value type in VHDL."""
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+
+class VHDLStdLogic(VHDLValueType):
     """A ValueType subclass representing VHDL's STD_LOGIC."""
 
     def __str__(self):
@@ -74,7 +82,7 @@ class VHDLStdLogic(ValueType):
         return 1
 
 
-class VHDLStdLogicVector(ValueType):
+class VHDLStdLogicVector(VHDLValueType):
     """
     A ValueType subclass representing VHDL's STD_LOGIC_VECTOR.
 
