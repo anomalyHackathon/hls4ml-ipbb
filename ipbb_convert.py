@@ -66,7 +66,7 @@ def run(src, dest, solution):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog=PROG_NAME,
                                      description='Convert the solution in an '
-                                     'hls4ml project to an ipbb component.',
+                                     'hls4ml project to a VHDL ipbb component.',
                                      epilog='Before using ipbb_convert, you '
                                      'MUST export the IP in your solution by '
                                      'running an appropriate feature in Vivado '
