@@ -2,7 +2,7 @@ import os
 import shutil
 import re
 from abc import ABC, abstractmethod
-from . import IP, IOType, PortPurpose
+from . import IP, IOType, PortPurpose, VHDLValueType
 from .exception import NoVHDLError, UnknownPortEncounteredError
 
 
@@ -125,7 +125,11 @@ class VHDLWrapper(Wrapper):
             string += ' : '
             string += 'in' if port.io_type == IOType.INPUT else 'out'
             string += ' '
-            string += str(port.value_type)
+
+            if isinstance(port.value_type, VHDLValueType):
+                string += str(port.value_type)
+            else:
+                raise NotImplementedError
 
             if i < len(ports) - 1:
                 string += ';\n'
