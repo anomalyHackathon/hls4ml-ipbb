@@ -22,15 +22,39 @@ class UnknownPortEncounteredError(ToolException):
 
 
 class Wrapper(ABC):
+    """
+    An abstract class representing a wrapper for an hls4ml IP.
+
+    Args:
+    ------
+    ip : IP
+       An hls4ml IP to be wrapped, in form of an hls4ml_ipbb.IP object.
+    """
     def __init__(self, ip: IP):
         self._ip = ip
 
     @abstractmethod
     def save(self, dest: str):
+        """
+        Generates and saves a wrapper for the IP specified in the constructor.
+
+        Args:
+        ------
+        dest : str
+           The path to a directory where a wrapper should be saved to.
+        """
         pass
 
 
 class VHDLWrapper(Wrapper):
+    """
+    A class representing the VHDL wrapper for an hls4ml IP.
+
+    Args:
+    ------
+    ip : IP
+       An hls4ml IP to be wrapped, in form of an hls4ml_ipbb.IP object.
+    """
     _PORT_INDENTATION = 6
     _PORT_MAP_INDENTATION = 4
     
@@ -105,6 +129,7 @@ class VHDLWrapper(Wrapper):
             f.write(wrapper_str)
 
     def _get_ports(self):
+        """A private method producing the VHDL list of ports."""
         string = ''
         ports = self._ip.get_ports()
         
@@ -122,6 +147,7 @@ class VHDLWrapper(Wrapper):
         return string
 
     def _get_port_map(self):
+        """A private method producing the VHDL port map."""
         def get_out_number(name):
             regex = re.compile(r'out_(\d+)', flags=re.IGNORECASE)
             res = regex.search(name)

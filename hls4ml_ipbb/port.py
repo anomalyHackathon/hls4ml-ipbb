@@ -4,11 +4,13 @@ from enum import Enum
 
 
 class IOType(Enum):
+    """An enum representing the IO type of a port."""
     INPUT = 0
     OUTPUT = 1
 
 
 class PortPurpose(Enum):
+    """An enum representing the purpose of a port."""
     NET_IN = 0
     NET_OUT = 1
     NET_IN_AP_VLD = 2
@@ -18,11 +20,29 @@ class PortPurpose(Enum):
 
 
 class ValueType(ABC):
+    """An abstract class representing a port value type in HDL."""
+
     @abstractmethod
     def __str__(self):
+        """A string representation of the object that can be inserted directly into an HDL code."""
         pass
 
     def convert(type_str: str):
+        """
+        Converts a type string (e.g. std_logic in VHDL) to a ValueType
+        subclass object.
+
+        Args:
+        --------
+        type_str : str
+           A type string to be converted.
+        
+        Returns:
+        --------
+        A ValueType subclass object corresponding to the type string. If
+        the method does not know what to do with the provided string, it
+        returns None.
+        """
         type_str = type_str.lower()
         if type_str == 'std_logic':
             return VHDLStdLogic()
@@ -44,14 +64,24 @@ class ValueType(ABC):
 
 
 class VHDLStdLogic(ValueType):
+    """A ValueType subclass representing VHDL's STD_LOGIC."""
     def __str__(self):
         return 'std_logic'
 
     def __len__(self):
+        """The bit width of STD_LOGIC."""
         return 1
 
 
 class VHDLStdLogicVector(ValueType):
+    """
+    A ValueType subclass representing VHDL's STD_LOGIC_VECTOR.
+
+    Args:
+    --------
+    size : int
+       The bit width of the type.
+    """
     def __init__(self, size):
         self._size = size
 
@@ -63,6 +93,18 @@ class VHDLStdLogicVector(ValueType):
 
 
 class Port:
+    """
+    A class representing a port in an IP.
+
+    Args:
+    --------
+    name : str
+       The name of the port as it appears in an HDL code.
+    io_type : IOType
+       The IO type of the port.
+    value_type : ValueType
+       The value type of the port.
+    """
     def __init__(self, name: str, io_type: IOType, value_type: ValueType):
         self._name = name
         self._io_type = io_type
@@ -89,18 +131,22 @@ class Port:
 
     @property
     def name(self):
+        """The name of the port."""
         return self._name
 
     @property
     def io_type(self):
+        """The IO type of the port."""
         return self._io_type
 
     @property
     def value_type(self):
+        """The value type of the port."""
         return self._value_type
 
     @property
     def purpose(self):
+        """The purpose of the port."""
         return self._purpose
 
     
