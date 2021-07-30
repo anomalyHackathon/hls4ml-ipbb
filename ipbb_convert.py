@@ -22,7 +22,6 @@ except ImportError:
 def run(src, dest, solution):
     try:
         project = Project(src)
-        project.solutions.append('test')
 
         if solution is None:
             if len(project.solutions) > 1:
