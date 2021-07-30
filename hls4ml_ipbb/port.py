@@ -65,6 +65,7 @@ class ValueType(ABC):
 
 class VHDLStdLogic(ValueType):
     """A ValueType subclass representing VHDL's STD_LOGIC."""
+
     def __str__(self):
         return 'std_logic'
 
@@ -89,6 +90,7 @@ class VHDLStdLogicVector(ValueType):
         return f'std_logic_vector({self._size - 1} downto 0)'
 
     def __len__(self):
+        """The bit width of STD_LOGIC_VECTOR."""
         return self._size
 
 
@@ -100,8 +102,10 @@ class Port:
     --------
     name : str
        The name of the port as it appears in an HDL code.
+
     io_type : IOType
        The IO type of the port.
+
     value_type : ValueType
        The value type of the port.
     """
