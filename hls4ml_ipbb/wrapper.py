@@ -2,23 +2,8 @@ import os
 import shutil
 import re
 from abc import ABC, abstractmethod
-from . import IP, IOType, PortPurpose, ToolException
-
-
-class NoVHDLError(ToolException):
-    def __init__(self):
-        super().__init__('The solution does not have an exported VHDL IP '
-                         '(but it may have an IP exported in a different HDL)')
-
-
-class UnknownPortEncounteredError(ToolException):
-    def __init__(self, port_name):
-        super().__init__(f"The solution has an unknown port '{port_name}'")
-        self._port_name = port_name
-
-    @property
-    def port_name(self):
-        return self._port_name
+from . import IP, IOType, PortPurpose
+from .exception import NoVHDLError, UnknownPortEncounteredError
 
 
 class Wrapper(ABC):
@@ -55,6 +40,7 @@ class VHDLWrapper(Wrapper):
     ip : IP
        An hls4ml IP to be wrapped, in form of an hls4ml_ipbb.IP object.
     """
+
     _PORT_INDENTATION = 6
     _PORT_MAP_INDENTATION = 4
     
