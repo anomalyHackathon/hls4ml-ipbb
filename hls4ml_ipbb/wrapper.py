@@ -2,15 +2,18 @@ import os
 import shutil
 import re
 from abc import ABC, abstractmethod
-from . import IP, IOType, PortPurpose
+from . import IP, IOType, PortPurpose, ToolException
 
 
-class NoVHDLError(Exception):
-    pass
+class NoVHDLError(ToolException):
+    def __init__(self):
+        super().__init__('The solution does not have an exported VHDL IP '
+                         '(but it may have an IP exported in a different HDL)')
 
 
-class UnknownPortEncounteredError(Exception):
+class UnknownPortEncounteredError(ToolException):
     def __init__(self, port_name):
+        super().__init__(f"The solution has an unknown port '{port_name}'")
         self._port_name = port_name
 
     @property

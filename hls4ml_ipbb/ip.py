@@ -1,19 +1,30 @@
 import os
 import defusedxml.ElementTree as ET
 import re
-from . import Port, ValueType, IOType, PortPurpose
+import traceback
+from . import Port, ValueType, IOType, PortPurpose, ToolException
 
 
-class NoHDLError(Exception):
-    pass
+class NoHDLError(ToolException):
+    def __init__(self):
+        super().__init__('The solution does not have an exported IP')
 
 
-class NoHLSProjectError(Exception):
-    pass
+class NoHLSProjectError(ToolException):
+    def __init__(self):
+        super().__init__('The specified hls4ml project does not have any '
+                         'Vivado HLS project directory inside')
 
 
-class InvalidHLSProjectError(Exception):
+class InvalidHLSProjectError(ToolException):
     def __init__(self, exception):
+        traceback.print_exception(type(exception), exception,
+                                  exception.__traceback__)
+        message = 'The Vivado HLS project inside the specified hls4ml project ' \
+            f'could not be processed because of {type(exception).__name__} ' \
+            'printed above'
+        super().__init__(message)
+
         self._exception = exception
 
     @property
@@ -24,7 +35,8 @@ class InvalidHLSProjectError(Exception):
 class Project:
     def __init__(self, path: str):
         if not os.path.exists(path):
-            raise FileNotFoundError
+            raise FileNotFoundError('The specified hls4ml project does not '
+                                    'exist')
 
         self._process_solutions(path)
       

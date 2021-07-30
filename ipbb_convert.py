@@ -12,11 +12,10 @@ def error(msg):
 
 
 try:
-    import hls4ml_ipbb
-    from hls4ml_ipbb import Project, IP, VHDLWrapper
+    from hls4ml_ipbb import Project, IP, VHDLWrapper, ToolException
 except ImportError:
-    error('hls4ml_ipbb is not present in your environment, please install it '
-          'before using the program')
+    error('hls4ml_ipbb could not be imported, please install it in your '
+          'environment if you do not have it')
 
 
 def run(src, dest, solution):
@@ -40,23 +39,8 @@ def run(src, dest, solution):
         wrapper.save(dest)
 
         print(f'{PROG_NAME}: the solution has been converted successfully!')
-    except FileNotFoundError:
-        error('the specified hls4ml project does not exist')
-    except hls4ml_ipbb.NoHDLError:
-        error('the solution does not have an exported IP')
-    except hls4ml_ipbb.NoHLSProjectError:
-        error('the specified hls4ml project does not have any '
-              'Vivado HLS project directory inside')
-    except hls4ml_ipbb.InvalidHLSProjectError:
-        print(traceback.format_exc())
-        error('the Vivado HLS project inside the specified '
-              'hls4ml project could not be processed, the details '
-              'are above')
-    except hls4ml_ipbb.NoVHDLError:
-        error('the solution does not have an exported VHDL IP '
-              '(but it may have an IP exported in a different HDL)')
-    except hls4ml_ipbb.UnknownPortEncounteredError as ex:
-        error(f"the solution has an unknown port '{ex.port_name}'")
+    except (FileNotFoundError, ToolException) as ex:
+        error(str(ex)[0].lower() + str(ex)[1:])
     except Exception:
         print(traceback.format_exc())
         error('an error has occurred, the details are above')

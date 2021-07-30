@@ -1,0 +1,2 @@
+class ToolException(Exception):
+    pass
