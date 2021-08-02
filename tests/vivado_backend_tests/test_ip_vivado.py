@@ -1,13 +1,10 @@
 import os
 import pytest
 import hls4ml_ipbb.exception as exc
+from utils import get_project_path
 from hls4ml_ipbb import Project, IP, Port, IOType
 from hls4ml_ipbb import VHDLStdLogic, VHDLStdLogicVector
 from hls4ml_ipbb.backend import VivadoBackend
-
-
-def get_project_path(name):
-    return os.path.join(os.path.dirname(__file__), 'projects', name)
 
 
 class MetaProject:
