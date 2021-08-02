@@ -15,7 +15,7 @@ try:
     from hls4ml_ipbb import Project, IP, VHDLWrapper
     from hls4ml_ipbb.backend import VivadoBackend
     from hls4ml_ipbb.exception import ToolException
-except FileNotFoundError:
+except ImportError:
     error('hls4ml_ipbb could not be imported, please install it in your '
           'environment if you do not have it')
 
