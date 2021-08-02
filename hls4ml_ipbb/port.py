@@ -160,8 +160,10 @@ class Port:
             self.purpose == other.purpose
 
     def __hash__(self):
-        return hash([self.name, self.io_type,
-                     self.value_type, self.purpose])
+        return hash(hash(self.name) +
+                    hash(self.io_type) +
+                    hash(self.value_type) +
+                    hash(self.purpose))
 
     @property
     def name(self):
