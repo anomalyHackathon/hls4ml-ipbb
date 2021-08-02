@@ -80,7 +80,7 @@ class VHDLWrapper(Wrapper):
         # Gather all IP VHDL files and save everything in a single .vhd file
         entire_hdl_str = ''
         
-        for entry in os.listdir(vhdl_path):
+        for entry in sorted(os.listdir(vhdl_path)):
             extension = os.path.splitext(entry)[-1].lower()
 
             if extension != '.vhd':
