@@ -38,7 +38,8 @@ Here is a short example of how to use `hls4ml_ipbb` to convert an hls4ml project
 ```python3
 import hls4ml_ipbb
 
-project = hls4ml_ipbb.Project('<path to your hls4ml project>', backend=hls4ml_ipbb.backend.VivadoBackend())
+project = hls4ml_ipbb.Project('<path to your hls4ml project>',
+                              backend=hls4ml_ipbb.backend.VivadoBackend())
 ip = project.get_ip('solution1')
 wrapper = hls4ml_ipbb.VHDLWrapper(ip)
 wrapper.save('<path to a directory where the ipbb component should be created>')
