@@ -26,7 +26,8 @@ class Wrapper(ABC):
         Args:
         ------
         dest : str
-           The path to a directory where a wrapper should be saved to.
+           The path to a directory where a wrapper should be saved to. If the
+           directory does not exist, it will be created automatically.
         """
         pass
 
