@@ -11,7 +11,7 @@ class Backend(ABC):
     """
 
     @abstractmethod
-    def process_solutions(self, path: str) -> (str, list):
+    def process_solutions(self, path: str, hls_project_name: str) -> (str, list):
         """
         Searches for an HLS project inside a provided hls4ml project directory
         and extracts available solutions from the first found HLS project.
@@ -20,6 +20,11 @@ class Backend(ABC):
         --------
         path: str
            The path to an hls4ml project directory.
+
+        hls_project_name: str
+           The name of an HLS project inside the hls4ml project. If the hls4ml
+           project contains only one HLS project, the value of this argument
+           should be None.
 
         Returns:
         --------

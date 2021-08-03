@@ -15,14 +15,15 @@ try:
     from hls4ml_ipbb import Project, IP, VHDLWrapper
     from hls4ml_ipbb.backend import VivadoBackend
     from hls4ml_ipbb.exception import ToolException
-except FileNotFoundError:
+except ImportError:
     error('hls4ml_ipbb could not be imported, please install it in your '
           'environment if you do not have it')
 
 
-def run(src, dest, solution):
+def run(src, dest, solution, hls_project_name):
     try:
-        project = Project(src, VivadoBackend())
+        project = Project(src, backend=VivadoBackend(),
+                          hls_project_name=hls_project_name)
 
         if solution is None:
             if len(project.solutions) > 1:
@@ -48,23 +49,28 @@ def run(src, dest, solution):
         error('an error has occurred, the details are above')
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(prog=PROG_NAME,
                                      description='Convert the solution in an '
                                      'hls4ml project to a VHDL ipbb component.',
                                      epilog='Before using ipbb_convert, you '
                                      'MUST export the IP in your solution by '
-                                     'running an appropriate feature in Vivado '
-                                     'HLS.')
+                                     'running an appropriate feature in your '
+                                     'HLS software.')
     parser.add_argument('src', metavar='SOURCE',
                         type=str, help='the path to an hls4ml project directory')
     parser.add_argument('dest', metavar='DESTINATION',
                         type=str, help='the path to a directory where an ipbb '
-                        'component should be exported to')
+                        'component should be exported to (the directory will '
+                        'be created if it does not exist)')
+    parser.add_argument('--hls-name', metavar='NAME', dest='hls_project_name',
+                        type=str, help='the name of an HLS project directory in '
+                        'the hls4ml project (required when there is more than 1 '
+                        'HLS project directory)')
     parser.add_argument('-s', '--solution', metavar='NAME', dest='solution',
                         type=str, help='the name of a solution in the project '
                         'to be converted (required when there is more than '
                         '1 solution)')
     
     args = parser.parse_args()
-    run(args.src, args.dest, args.solution)
+    run(args.src, args.dest, args.solution, args.hls_project_name)

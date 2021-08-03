@@ -26,7 +26,8 @@ class Wrapper(ABC):
         Args:
         ------
         dest : str
-           The path to a directory where a wrapper should be saved to.
+           The path to a directory where a wrapper should be saved to. If the
+           directory does not exist, it will be created automatically.
         """
         pass
 
@@ -80,7 +81,7 @@ class VHDLWrapper(Wrapper):
         # Gather all IP VHDL files and save everything in a single .vhd file
         entire_hdl_str = ''
         
-        for entry in os.listdir(vhdl_path):
+        for entry in sorted(os.listdir(vhdl_path)):
             extension = os.path.splitext(entry)[-1].lower()
 
             if extension != '.vhd':

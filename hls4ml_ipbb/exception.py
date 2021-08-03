@@ -14,14 +14,14 @@ class NoHDLError(ToolException):
 class NoHLSProjectError(ToolException):
     def __init__(self):
         super().__init__('The specified hls4ml project does not have any '
-                         'Vivado HLS project directory inside')
+                         'HLS project directory inside')
 
 
 class InvalidHLSProjectError(ToolException):
     def __init__(self, exception):
         traceback.print_exception(type(exception), exception,
                                   exception.__traceback__)
-        message = 'The Vivado HLS project inside the specified hls4ml project ' \
+        message = 'The HLS project inside the specified hls4ml project ' \
             f'could not be processed because of {type(exception).__name__} ' \
             'printed above'
         super().__init__(message)
@@ -31,6 +31,20 @@ class InvalidHLSProjectError(ToolException):
     @property
     def original_exception(self):
         return self._exception
+
+
+class ManyHLSProjectsError(ToolException):
+    def __init__(self):
+        super().__init__('The hls4ml project has more than one HLS project '
+                         'inside. Please use the hls_project_name argument '
+                         '(if hls4ml_ipbb is used as a Python module) or the '
+                         '--hls-name flag (if ipbb_convert is used).')
+
+
+class NoSpecifiedHLSProjectError(ToolException):
+    def __init__(self):
+        super().__init__('The hls4ml project does not have the specified HLS '
+                         'project directory inside.')
 
 
 class NoVHDLError(ToolException):
