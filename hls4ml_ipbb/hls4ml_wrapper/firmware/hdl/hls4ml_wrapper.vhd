@@ -35,33 +35,11 @@ end emp_payload;
 
 architecture rtl of emp_payload is
 
-  component hls4ml_ip is
+  component myproject is
     port(
-      {{PORTS}}
-      -- ap_clk : IN STD_LOGIC;
-      -- ap_rst : IN STD_LOGIC;
-      -- ap_start : IN STD_LOGIC;
-      -- ap_done : OUT STD_LOGIC;
-      -- ap_idle : OUT STD_LOGIC;
-      -- ap_ready : OUT STD_LOGIC;
-      -- fc1_input_V_ap_vld : IN STD_LOGIC;
-      -- fc1_input_V : IN STD_LOGIC_VECTOR (255 downto 0);
-      -- layer13_out_0_V : OUT STD_LOGIC_VECTOR (15 downto 0);
-      -- layer13_out_0_V_ap_vld : OUT STD_LOGIC;
-      -- layer13_out_1_V : OUT STD_LOGIC_VECTOR (15 downto 0);
-      -- layer13_out_1_V_ap_vld : OUT STD_LOGIC;
-      -- layer13_out_2_V : OUT STD_LOGIC_VECTOR (15 downto 0);
-      -- layer13_out_2_V_ap_vld : OUT STD_LOGIC;
-      -- layer13_out_3_V : OUT STD_LOGIC_VECTOR (15 downto 0);
-      -- layer13_out_3_V_ap_vld : OUT STD_LOGIC;
-      -- layer13_out_4_V : OUT STD_LOGIC_VECTOR (15 downto 0);
-      -- layer13_out_4_V_ap_vld : OUT STD_LOGIC;
-      -- const_size_in_1 : OUT STD_LOGIC_VECTOR (15 downto 0);
-      -- const_size_in_1_ap_vld : OUT STD_LOGIC;
-      -- const_size_out_1 : OUT STD_LOGIC_VECTOR (15 downto 0);
-      -- const_size_out_1_ap_vld : OUT STD_LOGIC
+{{PORTS}}
       );  
-  end component hls4ml_ip;
+  end component myproject;
 
   constant NUM_INPUTS : integer := {{NUM_INPUTS}};
   constant NUM_OUTPUTS : integer := {{NUM_OUTPUTS}};
@@ -80,30 +58,8 @@ architecture rtl of emp_payload is
 
 begin
 
-  ip: hls4ml_ip port map (
-    {{PORT_MAP}}
-    -- ap_clk => clk_p,
-    -- ap_rst => '0',
-    -- ap_start => '1',
-    -- ap_done => open,
-    -- ap_idle => open,
-    -- ap_ready => open,
-    -- fc1_input_V_ap_vld => d_vld(NUM_INPUTS - 1),
-    -- fc1_input_V => in_V,
-    -- layer13_out_0_V => out_V(0),
-    -- layer13_out_0_V_ap_vld => out_vld(0),
-    -- layer13_out_1_V => out_V(1),
-    -- layer13_out_1_V_ap_vld => out_vld(1),
-    -- layer13_out_2_V => out_V(2),
-    -- layer13_out_2_V_ap_vld => out_vld(2),
-    -- layer13_out_3_V => out_V(3),
-    -- layer13_out_3_V_ap_vld => out_vld(3),
-    -- layer13_out_4_V => out_V(4),
-    -- layer13_out_4_V_ap_vld => out_vld(4),
-    -- const_size_in_1 => open,
-    -- const_size_in_1_ap_vld => open,
-    -- const_size_out_1 => open,
-    -- const_size_out_1_ap_vld => open
+  ip: myproject port map (
+{{PORT_MAP}}
     );
 
   ipb_out <= IPB_RBUS_NULL;
