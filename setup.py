@@ -8,7 +8,7 @@ setuptools.setup(
     description='An automatic ipbb package for hls4ml IPs',
     package_dir={'': '.'},
     packages=['hls4ml_ipbb'],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=[
         'defusedxml==0.7.1',
         'numpy==1.21.1',
