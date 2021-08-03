@@ -6,8 +6,18 @@ from hls4ml_ipbb import Project, VHDLWrapper
 from hls4ml_ipbb.backend import VivadoBackend
 
 
-PROJECTS = [str(i) for i in range(1)]
-PROJECT_SOLUTIONS = [['solution1']]
+class MetaProject:
+    def __init__(self, name, **kwargs):
+        self.path = get_project_path(name)
+        self.__dict__.update(kwargs)
+
+
+PROJECTS = [
+    MetaProject(name='0', hls_project_name=None, solutions=['solution1']),
+    MetaProject(name='1', hls_project_name=None, solutions=['solution1']),
+    MetaProject(name='2', hls_project_name='__test',
+                solutions=['final__solution'])
+]
 
 
 def compare(actual_path, expected_path):
@@ -22,12 +32,13 @@ def backend():
     return VivadoBackend()
 
 
-@pytest.mark.parametrize('project_name,solution',
-                         [(p, s) for i, p in enumerate(PROJECTS)
-                          for s in PROJECT_SOLUTIONS[i]])
-def test_vhdl_wrapper_produces_correct_ipbb_component(backend, project_name,
+@pytest.mark.parametrize('meta_project,solution', [(p, s)
+                                                   for p in PROJECTS
+                                                   for s in p.solutions])
+def test_vhdl_wrapper_produces_correct_ipbb_component(backend, meta_project,
                                                       solution, tmp_path):
-    project = Project(get_project_path(project_name), backend=backend)
+    project = Project(meta_project.path, backend=backend,
+                      hls_project_name=meta_project.hls_project_name)
     ip = project.get_ip(solution)
     wrapper = VHDLWrapper(ip)
     wrapper.save(str(tmp_path))
@@ -68,13 +79,12 @@ def test_vhdl_wrapper_produces_correct_ipbb_component(backend, project_name,
 
     # Check the contents of hls4ml_ip.vhd
     ip_path = tmp_path / 'hls4ml_wrapper' / 'firmware' / 'hdl' / 'hls4ml_ip.vhd'
-    ip_path_expected = os.path.join(get_project_path(project_name), 'expected',
+    ip_path_expected = os.path.join(meta_project.path, 'expected',
                                     'hls4ml_ip.vhd')
     compare(str(ip_path), ip_path_expected)
 
     # Check the contents of hls4ml_wrapper.vhd
     wrapper_path = tmp_path / 'hls4ml_wrapper' / 'firmware' / 'hdl' / 'hls4ml_wrapper.vhd'
-    wrapper_path_expected = os.path.join(get_project_path(project_name),
+    wrapper_path_expected = os.path.join(meta_project.path,
                                          'expected', 'hls4ml_wrapper.vhd')
     compare(str(wrapper_path), wrapper_path_expected)
-    
