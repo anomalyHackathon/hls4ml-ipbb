@@ -3,7 +3,8 @@ import setuptools
 setuptools.setup(
     name='hls4ml-ipbb',
     version='0.0.1',
-    author='Maksymilian Graczyk (CERN)',
+    author='Maksymilian Graczyk (CERN), Nicolo Ghielmetti (CERN), '
+    'Sioni Summers (CERN), and other contributors',
     description='An automatic ipbb package for hls4ml IPs',
     package_dir={'': '.'},
     packages=['hls4ml_ipbb'],
