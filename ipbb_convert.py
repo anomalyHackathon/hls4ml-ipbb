@@ -49,7 +49,7 @@ def run(src, dest, solution, hls_project_name):
         error('an error has occurred, the details are above')
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(prog=PROG_NAME,
                                      description='Convert the solution in an '
                                      'hls4ml project to a VHDL ipbb component.',
