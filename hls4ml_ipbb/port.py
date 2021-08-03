@@ -74,6 +74,12 @@ class VHDLValueType(ValueType):
 class VHDLStdLogic(VHDLValueType):
     """A ValueType subclass representing VHDL's STD_LOGIC."""
 
+    def __eq__(self, other):
+        return True
+
+    def __hash__(self):
+        return 0
+
     def __str__(self):
         return 'std_logic'
 
@@ -93,6 +99,12 @@ class VHDLStdLogicVector(VHDLValueType):
     """
     def __init__(self, size):
         self._size = size
+
+    def __eq__(self, other):
+        return len(self) == len(other)
+
+    def __hash__(self):
+        return hash(len(self))
 
     def __str__(self):
         return f'std_logic_vector({self._size - 1} downto 0)'
@@ -140,6 +152,18 @@ class Port:
                        else PortPurpose.NET_OUT
             else:
                 self._purpose = PortPurpose.OTHER
+
+    def __eq__(self, other):
+        return self.name == other.name and \
+            self.io_type == other.io_type and \
+            self.value_type == other.value_type and \
+            self.purpose == other.purpose
+
+    def __hash__(self):
+        return hash(hash(self.name) +
+                    hash(self.io_type) +
+                    hash(self.value_type) +
+                    hash(self.purpose))
 
     @property
     def name(self):

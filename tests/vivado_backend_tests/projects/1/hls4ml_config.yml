@@ -1,0 +1,55 @@
+Backend: Vivado
+ClockPeriod: 5
+HLSConfig:
+  LayerName:
+    fc1:
+      Precision:
+        bias: ap_fixed<7,1>
+        weight: ap_fixed<7,1>
+      ReuseFactor: 1
+    fc1_input:
+      Precision:
+        result: ap_fixed<7,2>
+    fc2:
+      Precision:
+        bias: ap_fixed<7,1>
+        weight: ap_fixed<7,1>
+      ReuseFactor: 1
+    fc3:
+      Precision:
+        bias: ap_fixed<7,1>
+        weight: ap_fixed<7,1>
+      ReuseFactor: 1
+    output:
+      Precision:
+        bias: ap_fixed<7,1>
+        weight: ap_fixed<7,1>
+      ReuseFactor: 1
+    relu1:
+      Precision:
+        result: ap_fixed<7,1>
+      ReuseFactor: 1
+    relu2:
+      Precision:
+        result: ap_fixed<7,1>
+      ReuseFactor: 1
+    relu3:
+      Precision:
+        result: ap_fixed<7,1>
+      ReuseFactor: 1
+    softmax:
+      Precision: ap_fixed<41,10>
+      ReuseFactor: 1
+      exp_table_t: ap_fixed<18,8>
+      inv_table_t: ap_fixed<18,4>
+      table_size: 1024
+  Model:
+    Precision: ap_fixed<16,6>
+    ReuseFactor: 1
+    Strategy: Latency
+IOType: io_parallel
+KerasModel: !keras_model 'model_3/hls4ml_prj/keras_model.h5'
+OutputDir: model_3/hls4ml_prj
+ProjectName: myproject
+Stamp: 6aA0AfCF
+XilinxPart: xcu250-figd2104-2L-e
