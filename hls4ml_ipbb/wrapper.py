@@ -4,6 +4,7 @@ import re
 from abc import ABC, abstractmethod
 from . import IP, IOType, PortPurpose, VHDLValueType
 from .exception import NoVHDLError, UnknownPortEncounteredError
+from .exception import DirectoryExistsError
 
 
 class Wrapper(ABC):
@@ -72,9 +73,11 @@ class VHDLWrapper(Wrapper):
                                          'hls4ml_wrapper')
         wrapper_new_path = os.path.join(dest, 'hls4ml_wrapper')
 
+        if os.path.exists(wrapper_new_path):
+            raise DirectoryExistsError
+
         shutil.copytree(wrapper_orig_path, wrapper_new_path,
-                        ignore=shutil.ignore_patterns('.*', '#*', '*~'),
-                        dirs_exist_ok=True)
+                        ignore=shutil.ignore_patterns('.*', '#*', '*~'))
 
         wrapper_hdl_path = os.path.join(wrapper_new_path, 'firmware', 'hdl')
 
