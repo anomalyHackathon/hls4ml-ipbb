@@ -363,11 +363,6 @@ def backend():
     return VivadoBackend()
 
 
-def test_project_file_not_found(backend):
-    with pytest.raises(FileNotFoundError):
-        Project('rtjiogjogjoier12', backend=backend)
-
-
 def test_project_no_hls_project(backend):
     with pytest.raises(exc.NoHLSProjectError):
         Project(get_project_path('no_hls'), backend=backend)
