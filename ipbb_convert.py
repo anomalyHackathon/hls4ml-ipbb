@@ -61,7 +61,8 @@ def main():
                         type=str, help='the path to an hls4ml project directory')
     parser.add_argument('dest', metavar='DESTINATION',
                         type=str, help='the path to a directory where an ipbb '
-                        'component should be exported to')
+                        'component should be exported to (the directory will '
+                        'be created if it does not exist)')
     parser.add_argument('--hls-name', metavar='NAME', dest='hls_project_name',
                         type=str, help='the name of an HLS project directory in '
                         'the hls4ml project (required when there is more than 1 '
