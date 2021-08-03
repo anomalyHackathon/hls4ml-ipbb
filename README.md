@@ -1,6 +1,6 @@
 # hls4ml-ipbb
 
-A Python 3 package for producing ipbb-compatible wrappers of hls4ml IPs, along with an easy-to-use `ipbb_convert` command-line script.
+A Python 3 package for producing ipbb-compatible wrappers of hls4ml IPs, along with easy-to-use `ipbb_convert` and `numpy_to_mp7` command-line scripts.
 
 ## Installation
 In all cases, make sure your Python environment is the one you want to set up `hls4ml-ipbb` in.
@@ -44,6 +44,11 @@ ip = project.get_ip('solution1')
 wrapper = hls4ml_ipbb.VHDLWrapper(ip)
 wrapper.save('<path to a directory where the ipbb component should be created>')
 ```
+
+### numpy_to_mp7
+`hls4ml-ipbb` includes also a small script `numpy_to_mp7` designed for converting numpy files to the format recognisable by boards using ipbb (e.g. [Imperial MP7](http://www.hep.ph.ic.ac.uk/mp7/)).
+
+(under construction)
 
 ## Supported HDLs and HLS software
 Only VHDL and Vivado HLS are supported at the moment. However, `hls4ml-ipbb` is designed with extensibility in mind, so if you need support of a different HDL or HLS software and you are comfortable with Python 3, feel free to contribute!
