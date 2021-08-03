@@ -4,15 +4,15 @@ from ast import parse
 import numpy as np
 import bitstring
 
-def to_fixed(x):
+def to_fixed(x, args):
     F = args.fixed_point_bits[0] - args.fixed_point_bits[1]
     return np.round(x * 2**F)
 
-def to_float(x):
+def to_float(x, args):
     F = args.fixed_point_bits[0] - args.fixed_point_bits[1]
     return x * 2**-F
 
-def vals_to_hex(vals):
+def vals_to_hex(vals, args):
     nb = args.fixed_point_bits[0] # bits of one value
     tnb = len(vals) * nb # bitwidth of N values
     assert args.link_bitwidth >= tnb, \
@@ -22,11 +22,12 @@ def vals_to_hex(vals):
     fmt_string = 'uint:{},'.format(pad) + 'int:{},'.format(nb) * len(vals)
     return bitstring.pack(fmt_string, 0, *vals).hex
 
-def row_to_hex(row):
+def row_to_hex(row, args):
     # compute the packing factor
     pf = args.link_bitwidth // args.fixed_point_bits[0] if args.pack_links else 1
     N = int(np.ceil(len(row) / pf))
-    y = np.array([vals_to_hex(np.flip(row[i*pf:(i+1)*pf])) for i in range(N)])
+    y = np.array([vals_to_hex(np.flip(row[i*pf:(i+1)*pf]), args)
+                  for i in range(N)])
     return y
 
 def main():
@@ -77,11 +78,11 @@ def main():
 
     output_file = open(args.output_data_path, 'w')
 
-    fixed_data = to_fixed(fp32_data)
+    fixed_data = to_fixed(fp32_data, args)
     if args.generate_float_from_fix:
-        float_back_data = to_float(fixed_data)
+        float_back_data = to_float(fixed_data, args)
         np.save('float_from_fix.npy', float_back_data)
-    fixed_data = np.array([row_to_hex(row) for row in fixed_data])
+    fixed_data = np.array([row_to_hex(row, args) for row in fixed_data])
 
     link_map = list(range(args.link_range[0], args.link_range[1] + 1)) \
         if args.link_map is None else args.link_map
