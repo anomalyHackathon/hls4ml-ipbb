@@ -20,9 +20,10 @@ except ImportError:
           'environment if you do not have it')
 
 
-def run(src, dest, solution):
+def run(src, dest, solution, hls_project_name):
     try:
-        project = Project(src, VivadoBackend())
+        project = Project(src, backend=VivadoBackend(),
+                          hls_project_name=hls_project_name)
 
         if solution is None:
             if len(project.solutions) > 1:
@@ -61,10 +62,14 @@ if __name__ == '__main__':
     parser.add_argument('dest', metavar='DESTINATION',
                         type=str, help='the path to a directory where an ipbb '
                         'component should be exported to')
+    parser.add_argument('--hls-name', metavar='NAME', dest='hls_project_name',
+                        type=str, help='the name of an HLS project directory in '
+                        'the hls4ml project (required when there is more than 1 '
+                        'HLS project directory)')
     parser.add_argument('-s', '--solution', metavar='NAME', dest='solution',
                         type=str, help='the name of a solution in the project '
                         'to be converted (required when there is more than '
                         '1 solution)')
     
     args = parser.parse_args()
-    run(args.src, args.dest, args.solution)
+    run(args.src, args.dest, args.solution, args.hls_project_name)
