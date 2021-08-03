@@ -33,6 +33,20 @@ class InvalidHLSProjectError(ToolException):
         return self._exception
 
 
+class ManyHLSProjectsError(ToolException):
+    def __init__(self):
+        super().__init__('The hls4ml project has more than one HLS project '
+                         'inside. Please use the hls_project_name argument '
+                         '(if hls4ml_ipbb is used as a Python module) or the '
+                         '--hls-name flag (if ipbb_convert is used).')
+
+
+class NoSpecifiedHLSProjectError(ToolException):
+    def __init__(self):
+        super().__init__('The hls4ml project does not have the specified HLS '
+                         'project directory inside.')
+
+
 class NoVHDLError(ToolException):
     def __init__(self):
         super().__init__('The solution does not have an exported VHDL IP '
