@@ -20,25 +20,37 @@ class Project:
        The backend used in the hls4ml project, in form of
        an hls4ml_ipbb.backend.Backend object (e.g. a VivadoBackend object).
 
+    hls_project_name : str, optional
+       The name of an HLS project directory inside the hls4ml project. It is
+       usually not needed to provide this argument as hls4ml projects normally
+       contain only one HLS project. However, if it's not the case, the
+       value of hls_project_name must be provided.
+
     Raises:
     --------
     FileNotFoundError
        When the provided path points to a non-existent directory.
 
     NoHLSProjectError
-       When there is no HLS project in the hls4ml project.
+       When there is no valid HLS project in the hls4ml project.
 
     InvalidHLSProjectError
        When an error occurs during processing an HLS project in the hls4ml
        project.
+
+    ManyHLSProjectsError
+       When the hls4ml project contains more than one HLS project and
+       hls_project_name is not provided (or is None).
     """
-    def __init__(self, path: str, backend: Backend):
+    def __init__(self, path: str, backend: Backend,
+                 hls_project_name: str = None):
         if not os.path.exists(path):
             raise FileNotFoundError('The specified hls4ml project does not '
                                     'exist')
 
         self._backend = backend
-        self._path, self._solutions = self._backend.process_solutions(path)
+        self._path, self._solutions = \
+            self._backend.process_solutions(path, hls_project_name)
 
     @property
     def backend(self):

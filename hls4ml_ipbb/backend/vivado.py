@@ -4,21 +4,32 @@ import defusedxml.ElementTree as ET
 from . import Backend
 from .. import Port, IOType, ValueType
 from ..exception import NoHLSProjectError, InvalidHLSProjectError
+from ..exception import NoSpecifiedHLSProjectError, ManyHLSProjectsError
 
 
 class VivadoBackend(Backend):
     """A Backend subclass representing the Vivado HLS backend."""
 
-    def process_solutions(self, path: str) -> (str, list):
+    def process_solutions(self, path: str, hls_project_name: str) -> (str, list):
         project_path = None
-        for root, directories, files in os.walk(path):
-            for f in files:
-                if f == 'vivado_hls.app':
-                    project_path = root
-                    break
 
-        if project_path is None:
-            raise NoHLSProjectError
+        if hls_project_name is None:
+            for root, directories, files in os.walk(path):
+                for f in files:
+                    if f == 'vivado_hls.app':
+                        if project_path is None:
+                            project_path = root
+                        else:
+                            raise ManyHLSProjectsError
+
+            if project_path is None:
+                raise NoHLSProjectError
+        else:
+            project_path = os.path.join(path, hls_project_name)
+
+            if not os.path.exists(project_path) or \
+               'vivado_hls.app' not in os.listdir(project_path):
+                raise NoSpecifiedHLSProjectError
 
         solutions_to_return = []
 
@@ -26,7 +37,16 @@ class VivadoBackend(Backend):
             hls_config_tree = ET.parse(os.path.join(project_path,
                                                     'vivado_hls.app'))
             root = hls_config_tree.getroot()
-            solutions = root.find('{com.autoesl.autopilot.project}solutions')
+            solutions = None
+
+            for child in root:
+                if child.tag.endswith('solutions'):
+                    solutions = child
+                    break
+
+            if solutions is None:
+                raise RuntimeError(
+                    'Could not find the "solutions" tag in vivado_hls.app')
 
             for solution in solutions:
                 name = solution.get('name')
