@@ -55,8 +55,8 @@ if __name__ == '__main__':
                                      'hls4ml project to a VHDL ipbb component.',
                                      epilog='Before using ipbb_convert, you '
                                      'MUST export the IP in your solution by '
-                                     'running an appropriate feature in Vivado '
-                                     'HLS.')
+                                     'running an appropriate feature in your '
+                                     'HLS software.')
     parser.add_argument('src', metavar='SOURCE',
                         type=str, help='the path to an hls4ml project directory')
     parser.add_argument('dest', metavar='DESTINATION',
