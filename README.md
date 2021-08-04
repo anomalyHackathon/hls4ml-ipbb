@@ -2,6 +2,8 @@
 
 A Python 3 package for producing ipbb-compatible wrappers of hls4ml IPs, along with easy-to-use `ipbb_convert` and `numpy_to_mp7` command-line scripts.
 
+This repository is at a temporary location, it will be moved to [mpp-hep](https://github.com/mpp-hep) soon.
+
 ## Installation
 In all cases, make sure your Python environment is the one you want to set up `hls4ml-ipbb` in.
 
