@@ -79,12 +79,13 @@ def test_vhdl_wrapper_produces_correct_ipbb_component(backend, meta_project,
 
     # Check the contents of hls4ml_ip.vhd
     ip_path = tmp_path / 'hls4ml_wrapper' / 'firmware' / 'hdl' / 'hls4ml_ip.vhd'
-    ip_path_expected = os.path.join(meta_project.path, 'expected',
-                                    'hls4ml_ip.vhd')
+    ip_path_expected = os.path.join(meta_project.path, 'expected', solution,
+                                    'vhdl', 'hls4ml_ip.vhd')
     compare(str(ip_path), ip_path_expected)
 
     # Check the contents of hls4ml_wrapper.vhd
     wrapper_path = tmp_path / 'hls4ml_wrapper' / 'firmware' / 'hdl' / 'hls4ml_wrapper.vhd'
     wrapper_path_expected = os.path.join(meta_project.path,
-                                         'expected', 'hls4ml_wrapper.vhd')
+                                         'expected', solution, 'vhdl',
+                                         'hls4ml_wrapper.vhd')
     compare(str(wrapper_path), wrapper_path_expected)
