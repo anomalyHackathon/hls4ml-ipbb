@@ -44,11 +44,14 @@ wrapper.save('<path to a directory where the ipbb component should be created>')
 
 ### numpy_to_mp7
 `hls4ml-ipbb` includes also a small script `numpy_to_mp7` designed for converting numpy files to the textual format recognisable by boards using ipbb (e.g. [Imperial MP7](http://www.hep.ph.ic.ac.uk/mp7/)).
-The script maps the features of the numpy file specified in input to a channel for the output file. A lot of parameters can be set to define the mapping; please, run `numpy_to_mp7 -h` to get the full list of the parameters and their description.
-Here, two usage examples:
+
+The script maps the features of the specified input numpy file to a channel for the output file. Multiple parameters can be set to define the mapping, please run `numpy_to_mp7 -h` to get their full list along with their description.
+
+Here are two usage examples:
 ```
 numpy_to_mp7 --board_name ALGO_TESTBENCH --link_range 0 111 --generate_float_from_fix False --link_bitwidth 64 --invalid_rows 25 --fixed_point_bits 16 6 --input_data_path y_hls.npy --output_data_path result.txt
-
+```
+```
 numpy_to_mp7 --board_name JETS --link_range 0 111 --generate_float_from_fix True --link_bitwidth 64 --invalid_rows 6 --fixed_point_bits 16 6 --input_data_path X_test.npy --output_data_path source.txt
 ```
 
