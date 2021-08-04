@@ -12,9 +12,6 @@ pip install -e .
 ```
 If you want to make changes to the code (e.g. tweak the VHDL wrapper template for your use case), you can do so directly in the repository folder.
 
-### PyPI
-(coming soon)
-
 ## How to use
 `hls4ml-ipbb` takes an hls4ml project and produces an ipbb component directory that you can use in your project using ipbb, e.g. an [emp-fwk](https://gitlab.cern.ch/p2-xware/firmware/emp-fwk) project (a CERN account required).
 
