@@ -61,3 +61,10 @@ class UnknownPortEncounteredError(ToolException):
     @property
     def port_name(self):
         return self._port_name
+
+
+class DirectoryExistsError(ToolException):
+    def __init__(self):
+        super().__init__("The specified destination directory already contains "
+                         "an 'hls4ml_wrapper' folder. Please delete the folder "
+                         "or choose another destination directory.")
