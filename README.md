@@ -43,9 +43,8 @@ wrapper.save('<path to a directory where the ipbb component should be created>')
 ```
 
 ### numpy_to_mp7
-`hls4ml-ipbb` includes also a small script `numpy_to_mp7` designed for converting numpy files to the format recognisable by boards using ipbb (e.g. [Imperial MP7](http://www.hep.ph.ic.ac.uk/mp7/)).
-
-(under construction)
+`hls4ml-ipbb` includes also a small script `numpy_to_mp7` designed for converting numpy files to the textual format recognisable by boards using ipbb (e.g. [Imperial MP7](http://www.hep.ph.ic.ac.uk/mp7/)).
+The script maps the features of the numpy file specified in input to a channel for the output file. A lot of parameters can be set to define the mapping; please, run `numpy_to_mp7 -h` to get the full list of the parameters and their description.
 
 ## Supported HDLs and HLS software
 Only VHDL and Vivado HLS are supported at the moment. However, `hls4ml-ipbb` is designed with extensibility in mind, so if you need support of a different HDL or HLS software and you are comfortable with Python 3, feel free to contribute!
